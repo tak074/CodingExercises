@@ -1,9 +1,56 @@
 var convert = function(s, numRows) {
-    // loop through the string
-        // let rowNum = i % 2(numRows - 1);
-        // if rowNum === 0
-            // first row
-        // else if rowNum === 1
+    let totalArrs = [];
+    let len = s.length;
+    let interval = 2 * (numRows - 1);
+    
+    if (len === numRows || numRows === 1) {
+        return s;
+    }
+
+    // loop numRows times
+    for (let i = 0; i < numRows; i++) {
+        let newRow = [];
+
+        // if the input is 0 or numRows - 1,
+        if (i === 0 || i === numRows - 1) {   
+            let input = i;
+            // while input < len
+            while (input < len) {
+                // add s[input] into newRow
+                newRow.push(s[input]);
+                // update input
+                input += interval;
+            }
+        }
+        else {
+            let firstEnt = i;
+            let secondEnt = interval - i;
+            let firstTurn = true;
+
+            while (firstEnt < len || secondEnt < len) {
+                if (firstTurn) {
+                    // add s[firstEnt]
+                    newRow.push(s[firstEnt]);
+                    // update firstEnt
+                    firstEnt += interval;
+                    // alternate firstTurn
+                    firstTurn = false;
+                }
+                else {
+                    // add s[secondEnt]
+                    newRow.push(s[secondEnt]);
+                    // update secondEnt
+                    secondEnt += interval;
+                    // alternate firstTurn
+                    firstTurn = true; 
+                }
+            }
+        }
+        // add the newRow into totalArrs
+        totalArrs.push(newRow.join(''));
+    }
+
+    return totalArrs.join('');
 };
 
 /*
