@@ -1,7 +1,7 @@
 // 1 <= num <= 3999
 
 
-var intToRoman = function(num) {
+var inToRoman = function(num) {
     let romanized = '';
     let romanDict = [['I', 'V'], ['X', 'L'], ['C', 'D'], ['M', '?']];
     // break it down into array
@@ -23,9 +23,9 @@ var intToRoman = function(num) {
         } else if (currNum < 9) {
             // 5, 6, 7, 8
             let temp = romanDict[i][1];
-            while (temp > 5) {
+            while (currNum > 5) {
                 temp = temp + romanDict[i][0];
-                temp--;
+                currNum--;
             };
             romanized = temp + romanized;
         } else if (currNum === 9) {
