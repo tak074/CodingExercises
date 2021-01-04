@@ -21,3 +21,9 @@ var countPairs = function(deliciousness) {
 
   return mealCount;
 };
+
+
+// test that failed
+// Input: [149,107,1,63,0,1,6867,1325,5611,2581,39,89,46,18,12,20,22,234]
+// Output: 10;
+// Expected: 12;
