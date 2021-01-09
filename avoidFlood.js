@@ -2,7 +2,6 @@
 // if no lake is rained on twice, it's fine
 // if there's n number of lakes that will flood, there must be at least n number of 0 to prevent it.
 
-
 // test more for [1,0,2,0,2,1]
 // current model prioritizes filling in from last zero
 // keep track of number of zeros between each of flooding number
