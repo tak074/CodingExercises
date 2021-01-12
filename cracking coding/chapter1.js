@@ -92,3 +92,77 @@ var compress = function(string) {
 }
 
 // Q7
+var rotatePic = function(nestedArr) {
+  let solution = [];
+  // loop through each col
+  for (let j = 0; j < nestedArr[0].length; j++) {
+    // loop from the last row
+    let container = [];
+    for (let i = nestedArr - 1; i >= 0; i--) {
+      // get the jth index from the i row. and add it to temp container
+      container.push(nestedArr[i][j]);
+    }
+    solution.push(container);
+  }
+  return solution;
+}
+
+// Q8
+var xBomb = function(nestedArr) {
+  let cols = {};
+  let ans = [];
+
+  // loop through each rows
+  for (let i = 0; i < nestedArr.length; i++) {
+    // find index of a bomb
+    let currRow = nestedArr[i];
+    let indx = currRow.indexOf(0);
+    if (indx === -1) {
+      // push the entire row to ans;
+      ans.push(currRow);
+    } else {
+      // add its index to cols if it doesn't exist
+      if (!cols[indx]) cols[indx] = true;
+      let checkNextBomb = function(arr) {
+        // find next bomb
+        let nextBomb = arr.indexOf(0);
+        if (nextBomb !== -1) {
+          // add the index to cols if it doesn't exist.
+          if (!cols[indx]) cols[indx] = true;
+          let subArr = arr.slice(nextBomb + 1);
+          checkNextBomb(subArr);
+        }
+      }
+      checkNextBomb(currRow);
+      ans.push(new Array(nestedArr[0].length).fill(0));
+    }
+  }
+
+  let bombIndx = Object.keys(cols);
+  bombIndex.forEach((loc) => {
+    for (let k = 0; k < ans.length; k++) {
+      ans[k][loc] = 0;
+    }
+  })
+  return ans;
+}
+
+// Q9
+var isSubstring = function(str1, str2) {
+  if (str1.length !== str2.length) return false;
+
+  let firstLetter = str1[0];
+
+  let tryLotations = function(str) {
+    let str2First = str.indexOf(firstLetter);
+    if (str2First === -1) return false;
+    let shifted = str.slice(str2First) + str.slice(0, str2First);
+    if (shifted === str1) {
+      return true;
+    } else {
+      return tryLotations(shifted.slice(1) + shifted(0));
+    }
+  }
+
+  return tryLotations(str2);
+}
