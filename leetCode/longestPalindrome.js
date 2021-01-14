@@ -1,28 +1,37 @@
 var longestPalindrome = function(s) {
-  if (s.length === 0) return "";
-  let reversed = s.split('').reverse().join('');
-  let currLongest = s[0];
+    let currLongest = s[0];
 
-  for (let i = 0; i < s.length; i++) {
-      let currChar = s[i];
-      let lastIndx = reversed.indexOf(currChar);
-      let backStartPoint = 0;
+    for (let i = 0; i < s.length; i++) {
+        let currChar = s[i];
+        let lastIndx = s.lastIndexOf(currChar);
 
-      // when two indexes are not the same
-      while (i !== s.length - 1 - backStartPoint - lastIndx) {
-          // check if it's a palindrome;
-          let slice = s.slice(i, s.length - backStartPoint - lastIndx);
-          if (slice === slice.split('').reverse().join('') && slice.length > currLongest.length) {
-              currLongest = slice;
-              break;
-          } else {
-              let newStr = reversed.slice(lastIndx + 1);
-              backStartPoint = lastIndx + 1;
-              lastIndx = newStr.indexOf(currChar);
-          }
-      }
-  }
+        let checkPalindrome = function(str) {
+            let first = 0;
+            let last = str.length - 1;
+            let palindrome = true;
 
-  return currLongest;
+            while (last - first > 0 && palindrome) {
+                if (str[first] !== str[last]) {
+                    palindrome = false;
+                }
+                first++;
+                last--;
+            }
+            return palindrome;
+        }
 
+        // when two indexes are not the same
+        while (i !== lastIndx) {
+            // check if it's a palindrome;
+            let slice = s.slice(i, lastIndx + 1);
+            if (checkPalindrome(slice) && slice.length > currLongest.length) {
+                currLongest = slice;
+                break;
+            } else {
+                let newStr = s.slice(0, lastIndx);
+                lastIndx = newStr.lastIndexOf(currChar);
+            }
+        }
+    }
+    return currLongest;
 };
