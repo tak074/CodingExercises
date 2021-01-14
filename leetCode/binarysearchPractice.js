@@ -267,21 +267,3 @@ solve(s) {
 
     return open + off;
 }
-
-solve(s) {
-    let temp = [];
-    for (let i = 0; i < s.length; i++) {
-        let curr = s[i];
-        let number = curr.charCodeAt(0) - 64;
-        temp.unshift(number);
-    }
-
-    let total = 0;
-    for (let j = 0; j < temp.length; j++) {
-        let currNum = 26**(j) * Number(temp[j]);
-        total += currNum;
-    }
-
-    return total;
-
-}
