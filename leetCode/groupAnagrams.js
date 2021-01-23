@@ -4,13 +4,12 @@ var groupAnagrams = function(strs) {
   let anagrams = {};
 
   for (let i = 0; i < strs.length; i++) {
-    let currWord = strs[i];
-    let key = currWord.sort();
+    let key = strs[i].split('').sort().join('');
 
     if (!anagrams[key]) {
       anagrams[key] = [];
     }
-    anagrams[key].push(currWord);
+    anagrams[key].push(strs[i]);
   }
 
   return Object.values(anagrams);
