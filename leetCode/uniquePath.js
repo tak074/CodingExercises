@@ -1,29 +1,17 @@
 var uniquePaths = function(m, n) {
-  let row = 0;
-  let col = 0;
-  let solutions = 0;
-  (function checkSquare (r, c) {
-    if (r === m - 1) {
-      solutions++;
-    } else {
-      // if not the last row
-      // check if last col
-      if (c === n - 1) {
-        // go down
-        checkSquare(r + 1, c);
-      } else {
-        // neither last col or last row
-        for (let i = 0; i < 2; i++) {
-          if (i === 0) {
-            // go down
-            checkSquare(r + 1, c);
-          } else {
-            checkSquare(r, c + 1);
-          }
-        }
-      }
-    }
-  })(row, col);
+  if (m === 1 && n === 1) {
+    return 1;
+  }
 
-  return solutions;
+  let row = new Array(n).fill(1);
+  let matrix = new Array(m).fill(row);
+
+  console.log(matrix);
+  for (let i = m - 2; i >= 0; i--) {
+    for (let j = n - 2; j >= 0; j--) {
+      matrix[i][j] = matrix[i + 1][j] + matrix[i][j + 1];
+    }
+  }
+
+  return matrix[0][0];
 };
