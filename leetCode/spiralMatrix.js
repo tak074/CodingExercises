@@ -4,6 +4,7 @@ var spiralOrder = function(matrix) {
   if (matrix[0].length === 1) {
     return matrix.flat();
   }
+
   // loop through in peeling manner
   // m x n matrix. not n x n.
   let len = Math.min(matrix.length, matrix[0].length);
@@ -22,6 +23,8 @@ var spiralOrder = function(matrix) {
         }
       }
     }
+
+    // create bottom components
     let bottom = [];
     if (matrix.length - 1 - i !== i) {
       bottom = matrix[matrix.length - 1 - i].slice(i, matrix[0].length - 1 - i).reverse();
