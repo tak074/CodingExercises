@@ -2,6 +2,7 @@ var threeSum = function(nums) {
   if (nums.length < 3) return [];
   let combinations = [];
   let check = {};
+    nums = nums.sort(function(a,b) { return a - b; });
 
   for (let i = 0; i < nums.length; i++) {
     let firstNum = nums[i];
@@ -41,7 +42,9 @@ var threeSum = function(nums) {
             }
         }
       }
+      while (rest[j] === rest[j + 1]) j++;
     }
+    while (nums[i] === nums[i + 1]) i++;
   }
 
   return combinations;
