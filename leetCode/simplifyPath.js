@@ -11,7 +11,7 @@ var simplifyPath = function(path) {
             }
             // add '/' to the route
             route.push('/');
-        } else if (currChar === '.') {
+        } else {
             // count the number of consecutive periods.
             let dotCount = 0;
             while (currChar !== '/' && currChar !== undefined) {
@@ -22,7 +22,11 @@ var simplifyPath = function(path) {
                 currChar = path[index];
             }
             if (index - i === 1) {
-                route.pop();
+                if (dotCount === 1) {
+                    route.pop();
+                } else {
+                    route.push(path[i]);
+                }
             } else if ((index - i === 2) && dotCount === 2) {
                 let num = 0;
                 while (num < 3 && route.length > 0) {
@@ -33,18 +37,7 @@ var simplifyPath = function(path) {
                 let word = path.slice(i, index);
                 route.push(word);
             } 
-        } else { // alphabets
-            // make it into a word
-            let word = '';
-            while (currChar !== '/' && currChar !== undefined) {
-                word+=currChar;
-                index++;
-                currChar = path[index];
-            }
-            // add it to the route;
-            route.push(word);
-            // relocate i
-        }
+        } 
         i = index - 1;
     }
 
