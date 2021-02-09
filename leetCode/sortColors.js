@@ -31,6 +31,36 @@ var sortColors = function(nums) {
     return nums;
 };
 
+var sortColors = function(nums) {
+    
+    let low=0;
+    let mid=0;
+    let high = nums.length-1;
+    
+    while ( mid <= high ) { 
+    
+        if( nums[mid] == 0 ){ 
+            swap( low, mid ); 
+            mid++; 
+            low++ ;
+        } 
+    
+        else if( nums[mid] == 1 ) {   
+            mid++ ;  
+        } 
+
+        else if( nums[mid] == 2 ) {
+            swap( mid,high ); 
+            high--  
+        } 
+    }
+
+    function swap(a,b) {
+        [nums[b], nums[a]] = [nums[a], nums[b]];
+    }
+
+    return nums;
+};
 
 
 var sortColors = function(nums) {
