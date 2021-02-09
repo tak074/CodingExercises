@@ -1,4 +1,5 @@
 var searchMatrix = function(matrix, target) {
+    if (matrix[0][0] > target || matrix[matrix.length - 1][matrix[0].length - 1] < target) return false;
     let row;
     // find the row
     for (let i = 0; i < matrix.length; i++) {
@@ -9,12 +10,7 @@ var searchMatrix = function(matrix, target) {
             break;
         }
         if (i === matrix.length - 1) {
-            if (matrix[i][matrix[i].length - 1] >= target) {
-                if (matrix[i][matrix[i].length - 1] === target) return true;
-                row = matrix[i];
-            } else {
-                return false;
-            }
+            row = matrix[i];
         }
     }
 
