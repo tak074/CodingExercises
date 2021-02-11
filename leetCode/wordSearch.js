@@ -1,5 +1,4 @@
 var exist = function(board, word) {
-
   // loop through each letter to find the first letter.
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j <board[0].length; j++) {
@@ -27,18 +26,15 @@ var exist = function(board, word) {
             board[row][col] = word[index];
           }
         }
-
         return false;
       }
       // call the function
       // if the function returns true,
       if (checkProximity(i, j, 0)) {
-        // return true
         return true;
       }
     }
   }
-
   // if no complete match was found, return false
   return false;
 };
