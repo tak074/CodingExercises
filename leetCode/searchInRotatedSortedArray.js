@@ -29,3 +29,36 @@ var search = function(nums, target) {
     return currNum === target;
   }
 };
+
+var search = function(nums, target) {
+  if (nums.length === 1) return nums[0] === target;
+  let first = nums[0];
+  let last = nums[nums.length - 1];
+
+  while (first >= last) {
+    let copy = nums.slice();
+    let moving = nums.shift();
+    nums.push(moving);
+    first = nums[0];
+    last = nums[nums.length - 1];
+    if (JSON.stringify(copy) === JSON.stringify(nums)) break;
+  }
+  // the array is now sorted.
+  // binary search
+
+  let binarySearch = function(arr) {
+    let midIndex = Math.floor((arr.length - 1)/ 2);
+    let midNum = arr[midIndex];
+    if (midNum === target) return true;
+    if (arr.length <= 1) return false;
+
+    if (midNum > target) {
+      return binarySearch(arr.slice(0, midIndex));
+    } else {
+      return binarySearch(arr.slice(midIndex + 1));
+    }
+  }
+
+  return binarySearch(nums);
+};
+
