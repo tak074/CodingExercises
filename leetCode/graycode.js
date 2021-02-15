@@ -1,92 +1,34 @@
 var grayCode = function(n) {
-  let res = [];
-  // there can be n number of digits.
-  // make the last digit to one.
+  let res = [0];
+  let pattern = [];
+  let totalPattern = [];
+  let counter = 1;
+
+  while (counter <= n) {
+    if (counter === 1) {
+      pattern = [0,1];
+    } else if (counter === 2) {
+      pattern = [2, -1];
+    } else {
+      let copy = pattern.slice();
+      copy[0] = 0 - copy[0];
+      pattern[0] = 2**(counter - 1);
+      pattern[pattern.length / 2] = 0 - pattern[(pattern.length / 2)];
+      pattern = pattern.concat(copy);
+    }
+    totalPattern = totalPattern.concat(pattern);
+    counter++;
+  }
+
+  for (let i = 0; i < totalPattern.length - 1; i++) {
+    res.push(res[i] + totalPattern[i + 1]);
+  }
+
+  return res;
 };
 
-
-
-// n === 4
 /*
-0000
-0001
-0011
-0010
-0110
-0111
-0101
-1101
-1100
-1110
-1010
-1000
-1001
-
-
-000
-001 inc right most
-011 next available
-010 dec right most
-110 next available
-111 inc right most
-101 since no next available. dec second right most
-100 dec right most
-
-0 1 3 2 6 7 5 4
-
-0000
-0001 inc right most
-0011 next available
-0010 dec right most
-0110 next available
-0111 inc right most
-
-0101
-0100
-
-[0,1,3,2,6,7,5,4,12,13,15,14,10,11,9,8]
-
-0000
-0001
-
-0011
-0010
-
-0110
-0111
-0101
-0100
-
-1100
-1101
-1111
-1110
-1010
-1011
-1001
-1000
-
-[24,25,27,26,30,31,29,28,20,21,23,22,18,19,17,16]
-
-11000 added one in the front
-11001 inc right most
-11011 next available
-11010 dec right most
-11110 next available
-11111 inc right most
-11101 dec second right most
-11100 dec right most
-10100 dec fourth right most because num resulting in third right most has been used
-10101 inc right most
-10111 next available
-10110 dec right most
-10010 dec third right most because num resulting in second right most has been used
-10011 inc right most
-10001 dec second right most
-10000 dec right most.
-
-
-n = 1 | 0, 1, |
+n = 1 | 0,  1,|
 n = 2 | 3,  2,|
 n = 3 | 6,  7,  5,  4,|
 n = 4 | 12, 13, 15, 14, 10, 11,  9,  8,|
