@@ -1,13 +1,19 @@
 var numDecodings = function(s) {
-  if (s[0] === '0') return 0;
-  if (s.length <= 1) return 1;
-  let counter = 0;
+  if (s.length < 1) return 0;
+  let memo = [];
+  var recurse = function (index) {
+      let counter = 0
+      if (index === s.length) return 1;
+      if (memo[index] !== null) return memo[index];
+      if (s[index] > 0) {
+          counter += recurse(index + 1);
+      }
 
-  counter += numDecodings(s.slice(1));
-
-  if ((s[0] === '1' && s[1] !== null) || (s[0] === '2' && Number(s[1]) <= 6)) {
-    counter += numDecodings(s.slice(2));
+      if (s[index] !== 0 && s[index + 1] !== null && s[index] + s[index + 1] < '27') {
+        counter += recurse(index + 2);
+      }
+      memo[index] = counter;
+      return counter;
   }
-
-  return counter;
+  return recurse(0);
 };
