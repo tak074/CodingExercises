@@ -1,3 +1,4 @@
+// recursion
 var inorderTraversal = function(root) {
     // return the order as array
     if (root === null) return [];
@@ -10,5 +11,24 @@ var inorderTraversal = function(root) {
     }
     order(root);
 
+    return res;
+};
+
+// iteratively
+var inorderTraversal = function(root) {
+    let stack = [];
+    let res = [];
+    let curr = root;
+  
+    while (curr || stack.length) {
+        while (curr) {
+            stack.push(curr);
+            curr = curr.left;
+        }
+        curr = stack.pop();
+        res.push(curr.val);
+        curr = curr.right;
+    }
+  
     return res;
 };
