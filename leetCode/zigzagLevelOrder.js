@@ -25,7 +25,6 @@ var zigzagLevelOrder = function(root) {
       }
     }
   };
-
   organizeByGeneration(root, 1);
 
   return res;
