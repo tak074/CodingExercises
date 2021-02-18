@@ -18,3 +18,14 @@ var numTrees = function(n) {
 
   return buildTree(0, n);
 };
+
+// catalan number solution
+var numTrees = function(n) {
+  return factorial(2 * n) / (factorial(n + 1) * factorial(n));
+};
+
+function factorial(num){
+  if (num <= 0) return 1;
+
+  return num * factorial(num - 1);
+}
