@@ -5,35 +5,41 @@ var TreeNode = function(val = 0, left = null, right = null) {
 }
 
 var generateTrees = function(n) {
-  let memo = {};
+  // each treeNode(i) 1 <= i <= n can be the root.
+  // make tree left with numbers less than i,
+  // make tree right with numbers greater than i.
+
+  // since each left and right tree will be made with a range of numbers. use array for the range.
+
+  // for each combinations of left and right
+  // make a set and add it to res.
+
+  let memo = new Map();
 
   let buildTree = function(arr) {
     if (arr.length === 0) return [null];
-    if (memo[arr.join()]) return memo[arr.join()];
+    if (memo.has(arr.join())) return memo.get(arr.join());
 
     let res = [];
-
     for (let i = 0; i < arr.length; i++) {
       let left = buildTree(arr.slice(0, i));
       let right = buildTree(arr.slice(i + 1));
-      for (let currLeft of left) {
-        for (let currRight of right) {
-          let currNode = new TreeNode(arr[i]);
-          currNode.left = currLeft;
-          currNode.right = currRight;
-          res.push(currNode);
+
+      // for each combinations of left and right trees.
+      for (currLeft of left) {
+        for (currRight of right) {
+          let node = new TreeNode(arr[i]);
+          node.left = currLeft;
+          node.right = currRight;
+
+          // add it to res;
+          res.push(node);
         }
       }
     }
-
-    memo[arr.join()] = res;
+    memo.set(arr.join(), res);
     return res;
   }
 
-  let nums = [];
-  for (let j = 0; j < n; j++) {
-    nums.push(j + 1);
-  }
-
-  return buildTree(nums);
+  return buildTree([...Array(n)].map((val, index) => index + 1));
 };
