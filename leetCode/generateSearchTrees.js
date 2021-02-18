@@ -1,29 +1,20 @@
 var numTrees = function(n) {
   let memo = new Map();
 
-  let buildTree = function(arr) {
-    if (arr.length === 0) return [null];
-    if (memo.has(arr.join())) return memo.get(arr.join());
-    let res = [];
+  let buildTree = function(start, end) {
+    if (end - start=== 0) return 1;
+    if (memo.has(end - start)) return memo.get(end - start);
+    let counter = 0;
 
-    for (let i = 0; i < arr.length; i++) {
-      let left = buildTree(arr.slice(0, i));
-      let right = buildTree(arr.slice(i + 1));
+    for (let i = 0; i < end - start; i++) {
+      let left = buildTree(0, i);
+      let right = buildTree(i + 1, end - start);
 
-      for (currLeft of left) {
-        for (currRight of right) {
-          let node = new TreeNode(arr[i]);
-          node.left = currLeft;
-          node.right = currRight;
-
-          res.push(node);
-        }
-      }
+      counter += left * right;
     }
-
-    memo.set(arr, res);
-    return res;
+    memo.set(end - start, counter);
+    return counter;
   }
 
-  return buildTree([...Array(n)].map((v, i) => i + 1)).length;
+  return buildTree(0, n);
 };
