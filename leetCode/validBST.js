@@ -2,19 +2,16 @@ var isValidBST = function(root) {
 
   let validate = function(node, min, max) {
     if (!node) return true;
-    if (node.val <= min || node.val >= max) return false;
 
     // validate left
-    if (node.left && node.left.val >= node.val) return false;
-    let leftVal = node.left? node.left.val : undefined;
-    let left = validate(node.left, leftVal, max);
+    if (min && node.val <= min.val) return false;
+    let left = validate(node.left, min, node);
     // validate right
-    if (node.right && node.right.val <= node.val) return false;
-    let rightVal = node.right? node.right.val : undefined;
-    let right = validate(node.right, min, rightVal);
+    if (max && node.val >= max.val) return false;
+    let right = validate(node.right, node, max);
 
     return left && right;
   }
 
-  return validate(root, root.val, root.val)
+  return validate(root, null, null);
 };
