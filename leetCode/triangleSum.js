@@ -1,28 +1,10 @@
 var minimumTotal = function(triangle) {
-  // you can only add from top to bottom
+  // solve bottom up.
   // currRow[index] can go to nextRow[index] or nextRow[index + 1];
-  let currSmallest = Infinity;
-
-  let traverse = function(currSum, index, rowCount) {
-    // first path
-    let sum1 = currSum + triangle[rowCount][index];
-    if (rowCount === triangle.length - 1) {
-      currSmallest = Math.min(currSmallest, sum1);
-    } else {
-      traverse(sum1, index, rowCount + 1);
-    }
-
-    // second path
-    if (triangle[rowCount].length > index + 1) {
-      let sum2 = currSum + triangle[rowCount][index + 1];
-      if (rowCount === triangle.length - 1) {
-        currSmallest = Math.min(currSmallest, sum2);
-      } else {
-        traverse(sum2, index + 1, rowCount + 1);
-      }
+  for (let i = triangle.length - 2; i >= 0; i--) {
+    for (let j = 0; j < triangle[i].length; j++) {
+      triangle[i][j] += Math.min(triangle[i + 1][j], triangle[i + 1][j + 1]);
     }
   }
-
-  traverse(0, 0, 0);
-  return currSmallest;
+  return triangle[0][0];
 };
