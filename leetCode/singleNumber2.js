@@ -13,3 +13,13 @@ var singleNumber = function(nums) {
   }
   return single;
 };
+
+var singleNumber = function(nums) {
+  let map = {};
+
+  nums.forEach((n) => {
+      map[n] = map[n]? map[n] + 1 : 1;
+      if (map[n] === 3) delete map[n];
+  })
+  return Object.keys(map)[0];
+};
