@@ -1,15 +1,19 @@
 var wordBreak = function(s, wordDict) {
+  if (!wordDict || wordDict.length == 0) return false
 
-  let formulate = function(currWord) {
-    for (let i = 0; i < wordDict.length; i++) {
-      let temp = currWord + wordDict[i];
-      if (temp === s.slice(0, temp.length)) {
-        if (temp === s) return true;
-        if (formulate(temp)) return true;
+  let map = new Set(wordDict);
+  var dp = new Array(s.length + 1);
+  dp.fill(false)
+  dp[0] = true
+
+  for(var i = 1; i <= s.length; i++) {
+    for(var j = 0; j < i; j++) {
+      if(dp[j] && map.has(s.slice(j, i))) {
+        map.add(s.slice(0, i));
+        dp[i] = true
+        break;
       }
     }
-    return false;
   }
-
-  return formulate('');
+  return dp[s.length];
 };
