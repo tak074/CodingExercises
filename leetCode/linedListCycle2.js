@@ -1,20 +1,19 @@
 var detectCycle = function(head) {
-  if (!head) return head;
-  if (!head.next || !head.next.next) return null;
-  let slow = head.next;
-  let fast = head.next.next;
+  let slow = head;
+  let fast = head;
 
-  while (fast !== slow ) {
-    if (!fast || !fast.next) return null;
+  while (fast && fast.next && fast.next.next) {
+    if (slow === fast) {
+      slow = head;
+      while (fast !== slow) {
+        fast = fast.next;
+        slow = slow.next;
+      }
+      return fast;
+    }
     fast = fast.next.next;
     slow = slow.next
   }
 
-  // fast and slow are at the intersection
-  slow = head;
-  while (fast !== slow) {
-    fast = fast.next;
-    slow = slow.next;
-  }
-  return fast;
+  return null;
 };
