@@ -1,30 +1,27 @@
 var fractionToDecimal = function(numerator, denominator) {
+  if (denominator === 1) return '' + numerator;
   // divide the numbers.
-  var ans = numerator / denominator;
-  // turn it into string
-  ans = ans.toString();
-  // look into the decimal
-  var indx = ans.indexOf('.');
-  if (indx === -1) {
-    return ans;
-  }
-  var decimal = ans.slice(indx + 1);
-  var whole = ans.slice(0, indx);
-
+  let res = '';
+  // negative number
+  if ((numerator / denominator) < 0) res += '-';
+  // add whole number to res;
+  res += Math.floor(Math.abs(numerator) / Math.abs(denominator));
+  res += '.';
+  
+  let n = Math.abs(numerator);
+  let d = Math.abs(denominator);
+  n = n % d;
+  if (n === 0) return '' + (numerator/denominator);
+  
   let map = new Map();
-  let i = 0;
-  while(i < decimal.length && !map.has(decimal[i])) {
-    if (Number(decimal[i]) > 0) {
-      map.set(decimal[i], true);
-    }
-    i++;
-  }
-  if (i >= decimal.length) {
-    return whole + '.' + decimal;
+  while (!map.has(n)) {
+    if (n === 0) return res;
+    map.set(n, res.length);
+    res += Math.floor(n * 10 / d);
+    n = (n * 10) % d;
   }
 
-  let startIndex = decimal.indexOf(decimal[i]);
-  decimal = decimal.slice(0, startIndex) + '(' + decimal.slice(startIndex, i) + ')';
+  let repeat = res.slice(map.get(n), res.length);
 
-  return whole + '.' + decimal;
+  return res.slice(0, map.get(n))  + '(' + repeat + ')'; 
 };
