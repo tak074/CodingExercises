@@ -3,34 +3,28 @@ var fractionToDecimal = function(numerator, denominator) {
   var ans = numerator / denominator;
   // turn it into string
   ans = ans.toString();
-  // look into the decimals
+  // look into the decimal
   var indx = ans.indexOf('.');
   if (indx === -1) {
-      return ans;
+    return ans;
   }
   var decimal = ans.slice(indx + 1);
   var whole = ans.slice(0, indx);
-  // find any repeats
-  var repeat = decimal[0];
-  var counter = 0;
-  while (decimal && counter <= 10**4) {
-    counter++;
-    decimal = decimal.slice(1);
-    var currNum = decimal.slice(0, repeat.length);
 
-    if (currNum === repeat) {
-      break;
+  let map = new Map();
+  let i = 0;
+  while(i < decimal.length && !map.has(decimal[i])) {
+    if (Number(decimal[i]) > 0) {
+      map.set(decimal[i], true);
     }
-    repeat += currNum;
-
+    i++;
+  }
+  if (i >= decimal.length) {
+    return whole + '.' + decimal;
   }
 
-  if (!decimal) {
-      return whole + '.' + repeat;
-  }
+  let startIndex = decimal.indexOf(decimal[i]);
+  decimal = decimal.slice(0, startIndex) + '(' + decimal.slice(startIndex, i) + ')';
 
-  // create a new format for the decimal
-  ans = whole + '.(' + repeat + ')';
-  // return the new format
-  return ans;
+  return whole + '.' + decimal;
 };
