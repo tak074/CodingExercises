@@ -46,14 +46,10 @@ var rob = function(nums) {
     
         let maxSum = [nums[0], nums[1]];
         for (let i = 2; i < nums.length; i++) {
-            maxSum[i] = nums[i] + Math.max(...maxSum.slice(0, i - 1));
+            maxSum[i] = nums[i] + Math.max(...maxSum.slice(0 > i - 3? 0 : i - 3, i - 1));
         }
     
-        let max = Math.max(...maxSum);
-        let lastIndex = nums.length - 1;
-        if (maxSum[lastIndex] === max && maxSum.indexOf(max) === lastIndex) {
-            maxSum[lastIndex] = maxSum[lastIndex] - maxSum[0];
-        }
+        maxSum[nums.length - 1] = maxSum[nums.length - 1] - maxSum[0];
         return Math.max(...maxSum);
     }
     let rotated = nums.slice(1);
