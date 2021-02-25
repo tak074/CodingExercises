@@ -10,22 +10,15 @@ var rangeBitwiseAnd = function(m, n) {
     }
   }
 
-  let res = '';
-  let fail = false;
+  let res = new Array(m.length).fill(0);
   for (let i = 0; i < m.length; i++) {
-    if (!fail && m[i] === n[i]) {
-      res += m[i];
+    if (m[i] === n[i]) {
+      res[i] = m[i];
     } else {
-      res += '0';
-      fail = true;
+      break;
     }
   }
+  res = res.join('');
 
   return parseInt(res, 2);
 };
-
-5 = 0101
-6 = 0110
-7 = 0111
-8 = 1000
-9 = 1001
