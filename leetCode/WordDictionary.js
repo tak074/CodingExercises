@@ -1,9 +1,14 @@
 /**
  * Initialize your data structure here.
  */
+
+var Trie = function() {
+  this.children = new Map();
+  this.endVal = false;
+}
+
 var WordDictionary = function() {
-  this.storage = new Set();
-  this.letters = [];
+  this.root = new Trie();
 };
 
 /**
@@ -11,14 +16,15 @@ var WordDictionary = function() {
  * @return {void}
  */
 WordDictionary.prototype.addWord = function(word) {
-  // add it into the storage
-  this.storage.add(word);
-  // add each letters by their indexes.
+  let currNode = this.root;
   for (let i = 0; i < word.length; i++) {
-    if (this.letters[i] === undefined) {
-      this.letters[i] = new Set();
+    if (!currNode.children.has(word[i])) {
+      currNode.children.set(word[i], new Trie());
     }
-    this.letters[i].add(word[i]);
+    currNode = currNode.children.get(word[i]);
+    if (i === word.length - 1) {
+      currNode.endVal = true;
+    }
   }
 };
 
@@ -26,39 +32,30 @@ WordDictionary.prototype.addWord = function(word) {
  * @param {string} word
  * @return {boolean}
  */
+
 WordDictionary.prototype.search = function(word) {
-  let str = [];
-  let dot = false;
-  let dotIndex = [];
-  for (let i = 0; i < word.length; i++) {
-    if (word[i] === '.') {
-      dot = true;
-      dotIndex.push(i);
-      str.push('.');
-    } else {
-      str.push(word[i]);
-    }
-  }
-  if (!dot) {
-    return this.storage.has(word);
-  } else {
-    let fillDots = function(storage, letters, str, index) {
+  let checkLetters = function(node, str) {
+    if (str) {
+      if (str[0] === '.') {
         let res = false;
-        if (letters[index] === undefined) return res;
-      letters[index].forEach((char) => {
-        str[index] = char;
-        if (dotIndex.length === 0) {
-          if (storage.has(str.join(''))) res = true;
+        node.children.forEach((child) => {
+          console.log('child', child);
+          res = res || checkLetters(child, str.slice(1));
+        })
+        return res;
+      } else {
+        if (node.children.has(str[0])) {
+          return checkLetters(node.children.get(str[0]), str.slice(1));
         } else {
-          let popped = dotIndex.pop();
-          if (fillDots(storage, letters, str, popped)) res = true;
-          dotIndex.push(popped);
+          return false;
         }
-      })
-      return res;
+      }
+    } else {
+      return node.endVal;
     }
-    return fillDots(this.storage, this.letters, str, dotIndex.pop());
   }
+
+  return checkLetters(this.root, word);
 };
 
 /**
