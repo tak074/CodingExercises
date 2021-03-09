@@ -22,10 +22,22 @@ var kthSmallest = function(root, k) {
       prev.next = newNode;
       createChain(node.left, prev, newNode);
     }
-    if (node.right)
+    if (node.right) {
+      let newNode = new LinkedList(node.right.val);
+      newNode.next = curr.next;
+      curr.next = newNode;
+      createChain(node.right, curr, newNode);
+    }
   }
 
-  createChain(root);
+  createChain(root, head, curr);
+
+  while (k > 0) {
+    head = head.next;
+    k--;
+  }
+
+  return head.val;
 };
 
 // simple counter method
