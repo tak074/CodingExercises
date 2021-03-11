@@ -5,25 +5,23 @@ let LinkedList = function(val = 0, next = null) {
 }
 
 var kthSmallest = function(root, k) {
-  // create a LinkedList through recursion.
-
+  // create an inorder LinkedList through recursion.
   let head = new LinkedList;
   let prev = head;
-
   prev.next = new LinkedList(root.val);
   let curr = prev.next;
 
   let createChain = function(node, prev, curr) {
     if (node.left) {
-      // create the node
       let newNode = new LinkedList(node.left.val);
-      // connect it between prev and curr.
+      // prev - new - curr
       newNode.next = curr;
       prev.next = newNode;
       createChain(node.left, prev, newNode);
     }
     if (node.right) {
       let newNode = new LinkedList(node.right.val);
+      // curr - new - curr.next
       newNode.next = curr.next;
       curr.next = newNode;
       createChain(node.right, curr, newNode);
@@ -32,6 +30,7 @@ var kthSmallest = function(root, k) {
 
   createChain(root, head, curr);
 
+  // find the Kth node
   while (k > 0) {
     head = head.next;
     k--;
