@@ -5,77 +5,25 @@ function ListNode(val, next) {
 
 
 var mergeKLists = function(lists) {
-  // if empty
-  if (lists.length === 0) return null;
+  let head = new ListNode();
+  let nums = [];
 
-  let res = new ListNode(-10001);
-  let currNode = res;
-
-  let heads = [];
-  let empty = false;
-
-  // load heads
   for (let i = 0; i < lists.length; i++) {
-    // if the LinkedList has been exhausted, replace it with infity
-    if (lists[i] === null) {
-      heads[i] = Infinity;
-    } else {
-      heads[i] = lists[i].val;
+    let curr = lists[i];
+    while (curr) {
+      nums.push(curr.val);
+      curr = curr.next;
     }
   }
 
-  while (!empty) {
-    // check if every linkedLists are empty.
-    if (Math.min(...heads) !== Infinity) {
-      // compare between them
-      for (let j = 0; j < lists.length; j++) {
-        // when come across the smallest val
-        if (heads[j] === Math.min(...heads)) {
-          // make that as the next Node
-          currNode.next = new ListNode(heads[j]);
-          currNode = currNode.next;
-          lists[j] = lists[j].next;
+  nums.sort((a,b) => a - b);
 
-          if (lists[j] === null) {
-            heads[j] = Infinity;
-          } else {
-            heads[j] = lists[j].val;
-          }
-        }
-      }
-    } else {
-      // end the loop
-      empty = true;
-    }
-  }
-
-  return res.next;
-};
-
-var arrToLink = function(arr) {
-  let root = new ListNode(0);
-  let curr = root;
-
-  for (let i = 0; i < arr.length; i++) {
-    curr.next = new ListNode(arr[i]);
+  let curr = head;
+  for (let j = 0; j < nums.length; j++) {
+    let node = new ListNode(nums[j]);
+    curr.next = node;
     curr = curr.next;
   }
 
-  return root.next;
-}
-
-var samplesToLink = function(arr) {
-  let res = [];
-  arr.forEach((link) => {
-    res.push(arrToLink(link));
-  })
-
-  return res;
-}
-
-var samples = [[1,4,5],[1,3,4],[2,6]];
-var links = samplesToLink(samples);
-
-mergeKLists(links);
-
-
+  return head.next;
+};
