@@ -17,3 +17,16 @@ var longestCommonPrefix = function(strs) {
 
   return pre;
 };
+
+var longestCommonPrefix = function(strs) {
+  if (strs.length === 0) return "";
+  let pre = '';
+  let index = 0;
+
+  while (strs[0][index] && strs.every((word) => word[index] === strs[0][index])) {
+    pre += strs[0][index];
+    index++;
+  }
+
+  return pre;
+};
