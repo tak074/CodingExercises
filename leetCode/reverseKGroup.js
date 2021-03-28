@@ -1,66 +1,47 @@
 var reverseKGroup = function(head, k) {
   if (k === 1) return head;
-  let newListTail = null;
-  let newListHead = null;
 
-  let startPoint = head;
-  let currHead;
-  let counter = 0;
+  let res = new ListNode();
+  let curr = head;
+  let prev = res;
 
-  let storageHead = null;
-  let storageTail = null;
+  let hasKNode = function(node) {
+   let counter = 0;
+   while (node && counter < k) {
+     node = node.next;
+     counter++;
+   }
+   return counter === k;
+  }
 
-  let checkLength = function(list) {
-    if (list === null) return false;
-    let num = 1;
-    let currHead = list;
-    while (num !== k) {
-      if (!currHead.next) {
-        return false;
-      }
-      currHead = currHead.next;
-      num++;
-    }
-    return true;
-  };
-
-  while (checkLength(startPoint)) {
-    currHead = head;
-    // do the reversing;
+  // while k number of nodes exists.
+  while (hasKNode(curr)) {
+    // needs prev and next. (before the group, and after the group)
+    let counter = 0;
+    let reverse = null;
+    let last = curr;
+    // flip the group
     while (counter < k) {
-      let removing = currHead;
-      let currHead = currHead.next;
-      if (!newListHead) {
-          newListHead = removing;
-          newListTail = removing;
-          removing.next = null;
-      } else {
-          removing.next = newListHead;
-          newListHead = removing;
-      }
-      counter++;
+     if (!reverse) {
+       reverse = curr;
+       curr = curr.next;
+       reverse.next = null;
+     } else {
+       let temp = curr.next;
+       curr.next = reverse;
+       reverse = curr;
+       curr = temp;
+     }
+     counter++;
     }
-    // counter === k at this point
-    // add newListHead to storageHead
-    if (!storageHead) {
-      storageHead = newListHead;
-      storageTail = newListHead;
-    } else {
-      storageTail.next = newListHead;
-      storageTail = newListTail;
-    }
-    // reset for next round;
-    newListHead = null;
-    newListTail = null;
-    counter = 0;
-    startPoint = currHead;
+    // curr is the next
+    // reverse is the head of reversed list.
+    // connect with prev and next
+    prev.next = reverse
+    last.next = curr;
+    // update prev location.
+    prev = last;
   }
 
-  // add the rest
-  if (currHead) {
-    storageTail.next = currHead;
-  }
-
-  return storageHead;
-
-};
+  return res.next;
+ };
