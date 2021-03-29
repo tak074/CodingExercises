@@ -25,3 +25,17 @@ var removeDuplicates = function(nums) {
 
   return nums.length;
 };
+
+
+var removeDuplicates = function(nums) {
+  let index = 0;
+  while (nums[index + 1] || nums[index+ 1] === 0) {
+    let currVal = nums[index];
+
+    while (nums[index + 1] === nums[index]) {
+      nums.splice(index,1);
+    }
+
+    index++;
+  }
+};
