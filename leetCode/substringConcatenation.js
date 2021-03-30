@@ -1,23 +1,30 @@
 var findSubstring = function(s, words) {
   let res = [];
-  let first = words[0];
+  let wordLen = words[0].length;
+  let strLen = wordLen*words.length;
+  let storage = {};
+  words.forEach((word) => {
+    storage[word] = storage[word] + 1 || 1;
+  })
 
-  // iterate through s
-  for (let i = 0 ; i <= s.length - first.length; i++) {
-    let loc = s.slice(i, i + words[0].length);
-    let storage = words.slice(1);
-    while (loc !== -1) {
-      // remove that index of word.
-      storage.splice(loc, 1);
-      loc = storage.indexOf(s.slice(i + first.length, i + first.length + first.length));
+  const isConcatenated = function(str) {
+    let map = {};
+
+    for (let i = 0; i < str.length; i += wordLen) {
+      map[str.slice(i, i + wordLen)] = map[str.slice(i, i + wordLen)] + 1|| 1;
     }
 
-    if (storage.length === 0) res.push(i);
+    for (let key in storage) {
+      if (storage[key] !== map[key]) return false;
+    }
+
+    return true;
   }
 
-  // for each of the incidences, check if any of the word in words is the next word
-  // continue while words is not empty or returned false.
-  // if successfully ends, add the index to the res
+  for (let i = 0 ; i <= s.length - strLen; i++) {
+    let subStr = s.slice(i, i + strLen);
+    if (isConcatenated(subStr)) res.push(i);
+  }
 
   return res;
 };
@@ -33,3 +40,21 @@ var findSubstring = function(s, words) {
   // add the starting value to res.
 
 // after, remove the smallest index amongst them.
+
+var findSubstring = function(s, words) {
+  let storage = [];
+
+  for (let i = 0; i <= s.length - words[0].length; i++) {
+    let currStr = s.slice(i, i + words[0].length);
+    let currIndx = words.indexOf(currStr);
+
+    if (currIndx !== -1) {
+      if (!storage[currIndx]) {
+        storage[currIndx] = [];
+      }
+      storage[currIndx].push(i);
+    }
+  }
+
+  console.log(storage);
+};
