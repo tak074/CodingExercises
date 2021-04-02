@@ -1,0 +1,23 @@
+{
+  "name": "codingexercises",
+  "version": "1.0.0",
+  "description": "",
+  "main": "binarysearchPractice.js",
+  "dependencies": {
+    "jest": "^26.6.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tak074/CodingExercises.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tak074/CodingExercises/issues"
+  },
+  "homepage": "https://github.com/tak074/CodingExercises#readme"
+}
